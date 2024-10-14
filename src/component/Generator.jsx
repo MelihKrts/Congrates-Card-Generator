@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import html2canvas from 'html2canvas';
+import Draggable from 'react-draggable';
 
 export default function Generator() {
   const [value, setValue] = useState("");
   const [bgColor, setBgColor] = useState("");
-  const [bgImage, setBgImage] = useState("");
+
+  const [bgImage, setBgImage] = useState(null);
   const [fontColor, setFontColor] = useState("#000000");
   const [fontSize, setFontSize] = useState("16");
 
@@ -16,7 +18,7 @@ export default function Generator() {
     setBgColor(e.target.value);
   }
 
-  function addBgImage(e) {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -25,7 +27,7 @@ export default function Generator() {
       };
       reader.readAsDataURL(file);
     }
-  }
+  };
 
 
   function handleFontColorChange(e) {
@@ -48,7 +50,10 @@ export default function Generator() {
     }
 
     const card = document.getElementById('card');
-    html2canvas(card).then((canvas) => {
+    html2canvas(card,{
+      backgroundColor:null,
+      useCORS:true
+    }).then((canvas) => {
       const link = document.createElement('a');
       link.href = canvas.toDataURL('image/png');
       link.download = 'congrates-card.png';
@@ -72,15 +77,19 @@ export default function Generator() {
         <div className=' sm:w-full lg:w-1/2 md:w-1/3'>
           <h4 className='font-bold text-2xl py-2'>Preview</h4>
           <div id='card' className='w-full h-[340px] border rounded-lg  flex items-center justify-center overflow-hidden text-justify px-4' style={{
-            backgroundColor: bgColor,
+            width: '600px',
+            height: '400px',
             backgroundImage: bgImage ? `url(${bgImage})` : 'none',
-            backgroundSize: 'contain',
-            backgroundPosition: "center",
-            backgroundAttachment: "scroll"
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center',
+
           }}>
-            <span style={{ color: fontColor, fontSize: `${fontSize}px` }}>
-              {value}
-            </span>
+            <Draggable>
+              <span style={{ color: fontColor, fontSize: `${fontSize}px`, whiteSpace:"pre-wrap", textAlign:"center" }}>
+                {value}
+              </span>
+            </Draggable>
+
           </div>
         </div>
 
@@ -89,7 +98,7 @@ export default function Generator() {
 
             <div className='w-3/4 mb-4'>
               <label>Enter a Text Message</label>
-              <input type='text' required onChange={handleChange} value={value} className='rounded-[4px] bg-white border border-solid border-[#d4d7dd] outline-0 h-10 w-3/4 mt-3 pl-4' placeholder='Enter a message' />
+              <textarea type='text' required onChange={handleChange} value={value} className='rounded-[4px] bg-white border border-solid border-[#d4d7dd] outline-0  w-3/4 mt-3 pl-4 resize-none' placeholder='Enter a message' rows={4} />
             </div>
 
             <div className='w-1/2 mb-4'>
@@ -99,7 +108,8 @@ export default function Generator() {
 
             <div className='w-1/2 mb-4'>
               <label className='ml-2'>Add Background Image (Optional)</label>
-              <input type='file' accept='.jpg, .jpeg, .png, .webp' onChange={addBgImage} className='mt-3' />
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+
             </div>
 
             <div className='w-1/2 mb-4'>
