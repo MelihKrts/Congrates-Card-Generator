@@ -78,12 +78,10 @@ export default function Generator() {
         <div className='sm:w-full md:w-1/2 lg:w-1/2 w-full'>
           <h4 className='font-bold text-2xl py-2'>Preview</h4>
 
-          <div id='card' className='sm:w-full md:w-1/2 lg:w-1/2 w-[600px]  h-[400px]  rounded-lg flex items-center justify-center overflow-hidden text-justify'
+          <div id='card' className='w-full aspect-[3/2] max-w-[600px] rounded-lg flex items-center justify-center overflow-hidden text-justify bg-no-repeat bg-cover bg-center'
             style={{
               backgroundColor: bgColor,
               backgroundImage: bgImage ? `url(${bgImage})` : 'none',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
             }}>
 
             <Draggable>
@@ -93,7 +91,6 @@ export default function Generator() {
             </Draggable>
 
           </div>
-
 
         </div>
 
@@ -117,7 +114,7 @@ export default function Generator() {
 
             <div className=' w-full flex flex-col'>
               <h5 className='mb-4'>Add Background Image (Optional)</h5>
-              <label htmlFor='file-input' className='mb-4 rounded-lg bg-white text-black text-center px-4 border border-solid border-[#d4d7dd] outline-0 py-4 w-1/3 sm:w-1/3 md:w-1/2 lg:w-1/3 cursor-pointer'>
+              <label htmlFor='file-input' className='mb-4 rounded-lg bg-white text-black text-center px-4 border border-solid border-[#d4d7dd] outline-0 py-4 w-3/5 sm:w-2/3 md:w-1/2 lg:w-1/3 cursor-pointer'>
                 {"Select an Image"}
               </label>
               <input
@@ -140,7 +137,7 @@ export default function Generator() {
               <label>Font Color Change</label>
 
               <input type='color' onChange={handleFontColorChange} value={fontColor} className='outline-0 rounded-[4px] bg-white border border-solid border-[#d4d7dd] w-1/12 my-3' />
-              
+
             </div>
 
             <div className='w-full mt-6 mb-6'>
