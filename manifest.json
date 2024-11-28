@@ -1,6 +1,7 @@
 {
   "name": "Congrates Card Generator",
   "short_name": "Congrate Card Generator",
+  "description": "Generate personalized congratulation cards with ease",
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",
