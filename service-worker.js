@@ -1,9 +1,4 @@
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import { BrowserRouter } from 'react-router-dom'
-
-const CACHE_NAME = 'card-generator-cache';
+const CACHE_NAME = 'card-generator-cache-v1';
 const urlsToCache = ['/', '/index.html', '/icon-192x192.png', '/icon-512x512.png'];
 
 self.addEventListener('install', (event) => {
@@ -21,10 +16,3 @@ self.addEventListener('fetch', (event) => {
         })
     );
 });
-
-
-createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-)

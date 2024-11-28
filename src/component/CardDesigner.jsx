@@ -76,28 +76,200 @@ export default function CardDesigner({platform}) {
         return whiteColors.includes(color.toLowerCase());
     }
 
-    const handleSave = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+    // const handleSave = () => {
+    //     const canvas = document.createElement("canvas");
+    //     const ctx = canvas.getContext("2d");
+    //
+    //     canvas.width = platform.width;
+    //     canvas.height = platform.height;
+    //
+    //     ctx.fillStyle = backgroundColor;
+    //     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //
+    //
+    //     ctx.fillStyle = fontColor;
+    //     ctx.font = `${fontNumber} ${selectedValue}`;
+    //     ctx.textAlign = `left`;
+    //     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    //
+    //
+    //     const link = document.createElement("a");
+    //     link.download = `${platform.name.replace(" ", "_")}.png`;
+    //     link.href = canvas.toDataURL();
+    //     link.click();
+    // };
 
-        canvas.width = platform.width;
-        canvas.height = platform.height;
+    // const handleSave = () => {
+    //     const canvas = document.createElement("canvas");
+    //     const ctx = canvas.getContext("2d");
+    //
+    //     canvas.width = platform.width;
+    //     canvas.height = platform.height;
+    //
+    //     // Eğer bir arka plan resmi varsa, onu yükleyin ve canvas'a çizin
+    //     if (backgroundImage) {
+    //         const img = new Image();
+    //         img.src = backgroundImage;
+    //
+    //         img.onload = () => {
+    //             ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Resmi canvas'a çizin
+    //
+    //             // Metin stilini ayarla ve metni çiz
+    //             ctx.fillStyle = fontColor;
+    //             ctx.font = `${fontNumber} ${selectedValue}`;
+    //             ctx.textAlign = `left`;
+    //             ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    //
+    //             // Görüntüyü kaydet
+    //             const link = document.createElement("a");
+    //             link.download = `${platform.name.replace(" ", "_")}.png`;
+    //             link.href = canvas.toDataURL();
+    //             link.click();
+    //         };
+    //     } else {
+    //         // Arka plan resmi yoksa sadece renkli arka planı çiz
+    //         ctx.fillStyle = backgroundColor;
+    //         ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //
+    //         // Metin stilini ayarla ve metni çiz
+    //         ctx.fillStyle = fontColor;
+    //         ctx.font = `${fontNumber} ${selectedValue}`;
+    //         ctx.textAlign = `left`;
+    //         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    //
+    //         // Görüntüyü kaydet
+    //         const link = document.createElement("a");
+    //         link.download = `${platform.name.replace(" ", "_")}.png`;
+    //         link.href = canvas.toDataURL();
+    //         link.click();
+    //     }
+    // };
 
-        ctx.fillStyle = backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // const handleSave = () => {
+    //     const canvas = document.createElement("canvas");
+    //     const ctx = canvas.getContext("2d");
+    //
+    //     canvas.width = platform.width;
+    //     canvas.height = platform.height;
+    //
+    //     // Set font size explicitly when drawing on canvas
+    //     const fontSize = parseInt(fontNumber); // Ensure it's a number
+    //
+    //     if (backgroundImage) {
+    //         const img = new Image();
+    //         img.src = backgroundImage;
+    //
+    //         img.onload = () => {
+    //             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    //
+    //             // Explicitly set font with size and family
+    //             ctx.fillStyle = fontColor;
+    //             ctx.font = `${fontSize}px ${selectedValue}`;
+    //             ctx.textAlign = 'center'; // Changed to center to match preview
+    //
+    //             // Measure text to center it precisely
+    //             const textMetrics = ctx.measureText(text);
+    //             const textWidth = textMetrics.width;
+    //             const textHeight = fontSize; // Approximate text height
+    //
+    //             ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    //
+    //             // Görüntüyü kaydet
+    //             const link = document.createElement("a");
+    //             link.download = `${platform.name.replace(" ", "_")}.png`;
+    //             link.href = canvas.toDataURL();
+    //             link.click();
+    //         };
+    //     } else {
+    //         ctx.fillStyle = backgroundColor;
+    //         ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //
+    //         ctx.fillStyle = fontColor;
+    //         ctx.font = `${fontSize}px ${selectedValue}`;
+    //         ctx.textAlign = 'center';
+    //
+    //         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    //
+    //         // Görüntüyü kaydet
+    //         const link = document.createElement("a");
+    //         link.download = `${platform.name.replace(" ", "_")}.png`;
+    //         link.href = canvas.toDataURL();
+    //         link.click();
+    //     }
+    // };
 
-        ctx.fillStyle = fontColor;
-        ctx.font = `${fontNumber} ${selectedValue}`;
-        ctx.textAlign = `left`;
-        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    const handleSave = async () => {
+        try {
+            // Canvas oluşturma
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
 
+            // Platform boyutlarını kullan
+            canvas.width = platform.width;
+            canvas.height = platform.height;
 
-        const link = document.createElement("a");
-        link.download = `${platform.name.replace(" ", "_")}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
+            // Font boyutunu kesin sayıya çevir
+            const fontSize = parseInt(fontNumber);
+
+            // Arka plan ayarları
+            if (backgroundImage) {
+                // Resmi yükleme
+                const img = await new Promise((resolve, reject) => {
+                    const image = new Image();
+                    image.onload = () => resolve(image);
+                    image.onerror = reject;
+                    image.src = backgroundImage;
+                });
+
+                // Resmi canvas'a çizme
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            } else {
+                // Arka plan rengini doldurma
+                ctx.fillStyle = backgroundColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // Metin ayarları
+            ctx.fillStyle = fontColor;
+            ctx.font = `${fontSize}px ${selectedValue}`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Metni çizme
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            // Görüntüyü kaydetme
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+            // Dosya kaydetme
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${platform.name.replace(" ", "_")}.png`;
+
+            // Mobil ve PWA için uyumlu kaydetme
+            if (navigator.msSaveBlob) {
+                // IE10+
+                navigator.msSaveBlob(blob, link.download);
+            } else if ('download' in link) {
+                // Modern tarayıcılar
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                // Diğer tarayıcılar için geri dönüş
+                window.open(link.href, '_blank');
+            }
+
+            // Bellek temizliği
+            URL.revokeObjectURL(link.href);
+
+        } catch (error) {
+            console.error("Resim kaydetme hatası:", error);
+            alert("Resim kaydedilemedi. Lütfen tekrar deneyin.");
+        }
     };
+
 
     return (
         <section className="w-full  bg-[#252525] pt-4 mt-16 mb-14">
