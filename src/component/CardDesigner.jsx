@@ -76,132 +76,9 @@ export default function CardDesigner({platform}) {
         return whiteColors.includes(color.toLowerCase());
     }
 
-    // const handleSave = () => {
-    //     const canvas = document.createElement("canvas");
-    //     const ctx = canvas.getContext("2d");
-    //
-    //     canvas.width = platform.width;
-    //     canvas.height = platform.height;
-    //
-    //     ctx.fillStyle = backgroundColor;
-    //     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    //
-    //
-    //     ctx.fillStyle = fontColor;
-    //     ctx.font = `${fontNumber} ${selectedValue}`;
-    //     ctx.textAlign = `left`;
-    //     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    //
-    //
-    //     const link = document.createElement("a");
-    //     link.download = `${platform.name.replace(" ", "_")}.png`;
-    //     link.href = canvas.toDataURL();
-    //     link.click();
-    // };
-
-    // const handleSave = () => {
-    //     const canvas = document.createElement("canvas");
-    //     const ctx = canvas.getContext("2d");
-    //
-    //     canvas.width = platform.width;
-    //     canvas.height = platform.height;
-    //
-    //     // Eğer bir arka plan resmi varsa, onu yükleyin ve canvas'a çizin
-    //     if (backgroundImage) {
-    //         const img = new Image();
-    //         img.src = backgroundImage;
-    //
-    //         img.onload = () => {
-    //             ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Resmi canvas'a çizin
-    //
-    //             // Metin stilini ayarla ve metni çiz
-    //             ctx.fillStyle = fontColor;
-    //             ctx.font = `${fontNumber} ${selectedValue}`;
-    //             ctx.textAlign = `left`;
-    //             ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    //
-    //             // Görüntüyü kaydet
-    //             const link = document.createElement("a");
-    //             link.download = `${platform.name.replace(" ", "_")}.png`;
-    //             link.href = canvas.toDataURL();
-    //             link.click();
-    //         };
-    //     } else {
-    //         // Arka plan resmi yoksa sadece renkli arka planı çiz
-    //         ctx.fillStyle = backgroundColor;
-    //         ctx.fillRect(0, 0, canvas.width, canvas.height);
-    //
-    //         // Metin stilini ayarla ve metni çiz
-    //         ctx.fillStyle = fontColor;
-    //         ctx.font = `${fontNumber} ${selectedValue}`;
-    //         ctx.textAlign = `left`;
-    //         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    //
-    //         // Görüntüyü kaydet
-    //         const link = document.createElement("a");
-    //         link.download = `${platform.name.replace(" ", "_")}.png`;
-    //         link.href = canvas.toDataURL();
-    //         link.click();
-    //     }
-    // };
-
-
-    // const handleSave = () => {
-    //     const canvas = document.createElement("canvas");
-    //     const ctx = canvas.getContext("2d");
-    //
-    //     canvas.width = platform.width;
-    //     canvas.height = platform.height;
-    //
-    //     // Set font size explicitly when drawing on canvas
-    //     const fontSize = parseInt(fontNumber); // Ensure it's a number
-    //
-    //     if (backgroundImage) {
-    //         const img = new Image();
-    //         img.src = backgroundImage;
-    //
-    //         img.onload = () => {
-    //             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    //
-    //             // Explicitly set font with size and family
-    //             ctx.fillStyle = fontColor;
-    //             ctx.font = `${fontSize}px ${selectedValue}`;
-    //             ctx.textAlign = 'center'; // Changed to center to match preview
-    //
-    //             // Measure text to center it precisely
-    //             const textMetrics = ctx.measureText(text);
-    //             const textWidth = textMetrics.width;
-    //             const textHeight = fontSize; // Approximate text height
-    //
-    //             ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    //
-    //             // Görüntüyü kaydet
-    //             const link = document.createElement("a");
-    //             link.download = `${platform.name.replace(" ", "_")}.png`;
-    //             link.href = canvas.toDataURL();
-    //             link.click();
-    //         };
-    //     } else {
-    //         ctx.fillStyle = backgroundColor;
-    //         ctx.fillRect(0, 0, canvas.width, canvas.height);
-    //
-    //         ctx.fillStyle = fontColor;
-    //         ctx.font = `${fontSize}px ${selectedValue}`;
-    //         ctx.textAlign = 'center';
-    //
-    //         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-    //
-    //         // Görüntüyü kaydet
-    //         const link = document.createElement("a");
-    //         link.download = `${platform.name.replace(" ", "_")}.png`;
-    //         link.href = canvas.toDataURL();
-    //         link.click();
-    //     }
-    // };
 
     const handleSave = async () => {
         try {
-            // Canvas oluşturma
             const canvas = document.createElement("canvas");
             const ctx = canvas.getContext("2d");
 
@@ -209,12 +86,9 @@ export default function CardDesigner({platform}) {
             canvas.width = platform.width;
             canvas.height = platform.height;
 
-            // Font boyutunu kesin sayıya çevir
             const fontSize = parseInt(fontNumber);
 
-            // Arka plan ayarları
             if (backgroundImage) {
-                // Resmi yükleme
                 const img = await new Promise((resolve, reject) => {
                     const image = new Image();
                     image.onload = () => resolve(image);
@@ -222,46 +96,35 @@ export default function CardDesigner({platform}) {
                     image.src = backgroundImage;
                 });
 
-                // Resmi canvas'a çizme
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             } else {
-                // Arka plan rengini doldurma
                 ctx.fillStyle = backgroundColor;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
 
-            // Metin ayarları
             ctx.fillStyle = fontColor;
             ctx.font = `${fontSize}px ${selectedValue}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            // Metni çizme
             ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 
-            // Görüntüyü kaydetme
             const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
-            // Dosya kaydetme
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = `${platform.name.replace(" ", "_")}.png`;
 
-            // Mobil ve PWA için uyumlu kaydetme
             if (navigator.msSaveBlob) {
-                // IE10+
                 navigator.msSaveBlob(blob, link.download);
             } else if ('download' in link) {
-                // Modern tarayıcılar
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
             } else {
-                // Diğer tarayıcılar için geri dönüş
                 window.open(link.href, '_blank');
             }
 
-            // Bellek temizliği
             URL.revokeObjectURL(link.href);
 
         } catch (error) {
@@ -398,7 +261,7 @@ export default function CardDesigner({platform}) {
                 <div className="w-full my-4">
                     <h2 className="text-lg mx-4 text-white">Preview</h2>
                     <div
-                        className="w-full aspect-[3/2] max-w-[600px] rounded-lg flex items-center justify-center relative overflow-hidden bg-cover bg-no-repeat"
+                        className="w-full xs:w-3/4 sm:w-3/4 md:w-1/2 lg:w-1/2  aspect-[3/2] mx-4 max-w-[600px] rounded-lg flex items-center justify-center relative overflow-hidden bg-cover bg-no-repeat"
                         style={{
                             backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
                             backgroundColor: backgroundColor,
@@ -429,7 +292,7 @@ export default function CardDesigner({platform}) {
                     </div>
                     <button
                         onClick={handleSave}
-                        className="bg-green-500 text-white px-4 py-2 my-4 rounded hover:bg-green-600"
+                        className="bg-green-500 text-white px-4 py-2 my-8 mx-4 rounded hover:bg-green-600"
                     >
                         Save as Image
                     </button>
