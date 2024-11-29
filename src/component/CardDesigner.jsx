@@ -135,7 +135,7 @@ export default function CardDesigner({platform}) {
 
 
     return (
-        <section className="w-full  bg-[4A4238] pt-4 mt-16 mb-14">
+        <section className="w-full  bg-[#4A4238] pt-4 mt-16 mb-14">
             <div className="container justify-center flex flex-col  ">
                 <div
                     className="w-full overflow-x-scroll lg:overflow-hidden  my-4 flex items-center justify-between  pl-4 ">
