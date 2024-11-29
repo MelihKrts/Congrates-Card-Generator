@@ -31,7 +31,7 @@ export default function Header({onPlatformSelect}) {
                 </h3>
 
                 <button
-                    className="bg-green-400 rounded-md flex justify-center items-center  text-white text-center p-1"
+                    className="bg-green-400 rounded-md flex justify-center items-center  text-white text-center p-2 "
                     onClick={handleShowModal}
                 >
                     Create Project
