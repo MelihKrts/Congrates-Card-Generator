@@ -135,7 +135,7 @@ export default function CardDesigner({platform}) {
 
 
     return (
-        <section className="w-full  bg-[#252525] pt-4 mt-16 mb-14">
+        <section className="w-full  bg-[#4A4238] pt-4 mt-16 mb-14">
             <div className="container justify-center flex flex-col  ">
                 <div
                     className="w-full overflow-x-scroll lg:overflow-hidden  my-4 flex items-center justify-between  pl-4 ">
@@ -261,7 +261,7 @@ export default function CardDesigner({platform}) {
                 <div className="w-full my-4">
                     <h2 className="text-lg mx-4 text-white">Preview</h2>
                     <div
-                        className="w-full xs:w-3/4 sm:w-3/4 md:w-1/2 lg:w-1/2  aspect-[3/2] mx-4 max-w-[600px] rounded-lg flex items-center justify-center relative overflow-hidden bg-cover bg-no-repeat"
+                        className="xs:w-3/4 sm:w-3/4 md:w-1/2 lg:w-1/2  aspect-[3/2] mx-4 my-4 max-w-[600px] rounded-lg flex items-center justify-center relative overflow-hidden bg-cover bg-no-repeat"
                         style={{
                             backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
                             backgroundColor: backgroundColor,
